@@ -6,7 +6,7 @@ plugins {
 }
 
 application {
-    mainClass.set("org.example.hexlet.HelloWorld")
+    mainClass.set("org.example.hexlet.App")
 }
 
 group = "org.example"
@@ -17,9 +17,8 @@ repositories {
 }
 
 dependencies {
-    // Версии зависимостей могут отличаться
-    // Здесь мы сразу подключаем зависимости,
-    // которые понадобятся во время обучения
+    compileOnly("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
     implementation("io.javalin:javalin:6.2.0")
     implementation("org.slf4j:slf4j-simple:2.0.13")
     implementation("io.javalin:javalin-rendering:6.1.6")
@@ -28,6 +27,8 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.36")
     testImplementation(platform("org.junit:junit-bom:5.10.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testCompileOnly("org.projectlombok:lombok:1.18.36")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.36")
 }
 
 tasks.test {
