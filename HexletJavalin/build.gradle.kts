@@ -25,6 +25,8 @@ dependencies {
     implementation("gg.jte:jte:3.1.15")
     implementation("net.datafaker:datafaker:2.0.1")
     implementation("org.projectlombok:lombok:1.18.36")
+    implementation("org.apache.commons:commons-text:1.13.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
     testImplementation(platform("org.junit:junit-bom:5.10.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testCompileOnly("org.projectlombok:lombok:1.18.36")

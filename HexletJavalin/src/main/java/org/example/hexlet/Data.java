@@ -32,22 +32,22 @@ public class Data {
         return courses;
     }
 
-    public static List<User> getUsers() {
-        Random random = new Random(123);
-        Faker faker = new Faker(new Locale("en"), random);
-
-        List<User> users = new ArrayList<>();
-
-        for (int i = 0; i < ITEMS_COUNT; i++) {
-            User user = new User(
-                    Long.valueOf(i),
-                    faker.name().name()
-            );
-            users.add(user);
-        }
-
-        return users;
-    }
+//    public static List<User> getUsers() {
+//        Random random = new Random(123);
+//        Faker faker = new Faker(new Locale("en"), random);
+//
+//        List<User> users = new ArrayList<>();
+//
+//        for (int i = 0; i < ITEMS_COUNT; i++) {
+//            User user = new User(
+//                    Long.valueOf(i),
+//                    faker.name().name()
+//            );
+//            users.add(user);
+//        }
+//
+//        return users;
+//    }
 
     public static String getNextId() {
         int id = ++idCounter;

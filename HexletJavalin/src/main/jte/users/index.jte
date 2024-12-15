@@ -2,6 +2,10 @@
 @param UsersPage page
 
 @template.layout.page(content = @`
+    <form action="/courses" method="get">
+        <input type="search" required name="term" value="${page.getTerm()}">
+        <input type="submit" value="Search">
+    </form>
     <a href="/users/build">New User</a>
     @for(var user : page.getUsers())
         <div>
