@@ -10,6 +10,5 @@ import org.example.hexlet.model.Course;
 @Getter
 public class CoursesPage {
     private List<Course> courses;
-    private String header;
     private String term;
 }
