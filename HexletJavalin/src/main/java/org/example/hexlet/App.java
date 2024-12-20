@@ -36,12 +36,12 @@ public class App {
 
         app.get("/", ctx -> ctx.render("index.jte"));
 
-        app.get("/courses/build", ctx -> {
+        app.get(NamedRoutes.buildCoursePath(), ctx -> {
             var page = new BuildCoursePage();
             ctx.render("courses/build.jte", model("page", page));
         });
 
-        app.get("/courses/{id}", ctx -> {
+        app.get(NamedRoutes.coursePath("{id}"), ctx -> {
             var id = ctx.pathParamAsClass("id", Long.class).get();
             var course = CourseRepository.getEntities().stream()
                     .filter(el -> Objects.equals(el.getId(), id))
@@ -50,7 +50,7 @@ public class App {
             ctx.render("courses/show.jte", model("page", page));
         });
 
-        app.get("/courses", ctx -> {
+        app.get(NamedRoutes.coursesPath(), ctx -> {
             var term = ctx.queryParam("term");
             List<Course> courses;
             if (term != null) {
@@ -64,7 +64,7 @@ public class App {
             ctx.render("courses/index.jte", model("page", page));
         });
 
-        app.post("/courses", ctx -> {
+        app.post(NamedRoutes.coursesPath(), ctx -> {
             try {
                 var name = ctx.formParamAsClass("name", String.class)
                         .check(value -> value.length() > 2, "Наименование должно быть более 2 символов")
@@ -74,7 +74,7 @@ public class App {
                         .get();
                 var course = new Course(name, description);
                 CourseRepository.save(course);
-                ctx.redirect("/courses");
+                ctx.redirect(NamedRoutes.coursesPath());
             } catch (ValidationException e) {
                 var page = new BuildCoursePage(ctx.formParam("name"), ctx.formParam("description"),
                         e.getErrors());
