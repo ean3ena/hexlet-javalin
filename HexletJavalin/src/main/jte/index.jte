@@ -1,3 +1,9 @@
+@import org.example.hexlet.dto.MainPage
+@param MainPage page
+
 @template.layout.page(content = @`
-    <p>Hello World!</p>
+    <h1>Привет, Хекслет!</h1>
+    @if(!page.isVisited())
+        Это сообщение показывается только один раз. Если вы хотите увидеть его снова, сотрите куки
+    @endif
 `)

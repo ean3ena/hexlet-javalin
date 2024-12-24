@@ -7,11 +7,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hexlet Javalin Example</title>
+    <title>Hello Hexlet!</title>
 </head>
 <body>
 <header>
-    <h1>Hexlet</h1>
     <nav>
         <ul>
             <li><a href="/">Home</a></li>
