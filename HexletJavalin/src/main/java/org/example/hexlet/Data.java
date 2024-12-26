@@ -14,40 +14,42 @@ public class Data {
 
     private static int idCounter = ITEMS_COUNT;
 
-//    public static List<Course> getCourses() {
-//        Random random = new Random(123);
-//        Faker faker = new Faker(new Locale("en"), random);
-//
-//        List<Course> courses = new ArrayList<>();
-//
-//        for (int i = 0; i < ITEMS_COUNT; i++) {
-//            Course course = new Course(
-//                    Long.valueOf(i),
-//                    faker.educator().course(),
-//                    faker.text().text()
-//            );
-//            courses.add(course);
-//        }
-//
-//        return courses;
-//    }
+    public static List<Course> getCourses() {
+        Random random = new Random(123);
+        Faker faker = new Faker(new Locale("en"), random);
 
-//    public static List<User> getUsers() {
-//        Random random = new Random(123);
-//        Faker faker = new Faker(new Locale("en"), random);
-//
-//        List<User> users = new ArrayList<>();
-//
-//        for (int i = 0; i < ITEMS_COUNT; i++) {
-//            User user = new User(
-//                    Long.valueOf(i),
-//                    faker.name().name()
-//            );
-//            users.add(user);
-//        }
-//
-//        return users;
-//    }
+        List<Course> courses = new ArrayList<>();
+
+        for (int i = 0; i < ITEMS_COUNT; i++) {
+            Course course = new Course(
+                    (long) i,
+                    faker.educator().course(),
+                    faker.text().text()
+            );
+            courses.add(course);
+        }
+
+        return courses;
+    }
+
+    public static List<User> getUsers() {
+        Random random = new Random(123);
+        Faker faker = new Faker(new Locale("en"), random);
+
+        List<User> users = new ArrayList<>();
+
+        for (int i = 0; i < ITEMS_COUNT; i++) {
+            User user = new User(
+                    (long) i,
+                    faker.name().name(),
+                    faker.internet().emailAddress(),
+                    faker.internet().password()
+            );
+            users.add(user);
+        }
+
+        return users;
+    }
 
     public static String getNextId() {
         int id = ++idCounter;

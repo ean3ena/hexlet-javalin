@@ -31,6 +31,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testCompileOnly("org.projectlombok:lombok:1.18.36")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.36")
+    testImplementation("org.assertj:assertj-core:3.24.2")
+    testImplementation("com.konghq:unirest-java:3.13.0")
 }
 
 tasks.test {

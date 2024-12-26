@@ -3,10 +3,10 @@ package org.example.hexlet;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 import org.example.hexlet.controller.CoursesController;
+import org.example.hexlet.controller.RootController;
+import org.example.hexlet.controller.SessionsController;
 import org.example.hexlet.controller.UsersController;
-import org.example.hexlet.dto.MainPage;
-
-import static io.javalin.rendering.template.TemplateUtil.model;
+import org.example.hexlet.util.NamedRoutes;
 
 public class App {
 
@@ -17,12 +17,7 @@ public class App {
             config.fileRenderer(new JavalinJte());
         });
 
-        app.get("/", ctx -> {
-            var visited = Boolean.valueOf(ctx.cookie("visited"));
-            var page = new MainPage(visited);
-            ctx.render("index.jte", model("page", page));
-            ctx.cookie("visited", String.valueOf(true));
-        });
+        app.get(NamedRoutes.rootPath(), RootController::index);
 
         app.before(ctx -> {
             //
@@ -43,6 +38,18 @@ public class App {
         app.get(NamedRoutes.userPath("{id}") + "/edit", UsersController::edit);
         app.patch(NamedRoutes.userPath("{id}"), UsersController::update);
         app.delete(NamedRoutes.userPath("{id}"), UsersController::destroy);
+
+        app.after(ctx -> {
+            //
+        });
+
+        // Отображение формы логина
+        app.get(NamedRoutes.buildSessionsPath(), SessionsController::build);
+        // Процесс логина
+        app.post(NamedRoutes.sessionsPath(), SessionsController::create);
+        // Процесс выхода из аккаунта
+        app.delete(NamedRoutes.sessionsPath(), SessionsController::destroy);
+
 
         return app;
     }
