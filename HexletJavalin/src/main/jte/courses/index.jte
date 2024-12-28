@@ -2,7 +2,12 @@
 @import org.example.hexlet.dto.courses.CoursesPage
 @param CoursesPage page
 
-@template.layout.page(content = @`
+@template.layout.page(
+    page = page,
+    content = @`
+    @if(page.getFlash() != null)
+        <p>${page.getFlash()}</p>
+    @endif
     <form action="${NamedRoutes.coursesPath()}" method="get">
         <input type="search" required name="term" value="${page.getTerm()}">
         <input type="submit" value="Search">

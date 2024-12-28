@@ -3,6 +3,11 @@
 @param UsersPage page
 
 @template.layout.page(content = @`
+    @if(page.getFlash() != null)
+        <div class="alert alert-success" role="alert">
+            <p>${page.getFlash()}</p>
+        </div>
+    @endif
     <form action="${NamedRoutes.usersPath()}" method="get">
         <input type="search" required name="term" value="${page.getTerm()}">
         <input type="submit" value="Search">

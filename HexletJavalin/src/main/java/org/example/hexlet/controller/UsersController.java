@@ -28,19 +28,21 @@ public class UsersController {
             users = UserRepository.getEntities();
         }
         var page = new UsersPage(users, term);
+        page.setFlash(ctx.consumeSessionAttribute("flash"));
         ctx.render("users/index.jte", model("page", page));
     }
 
     public static void show(Context ctx) {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var user = UserRepository.find(id)
-                .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
+                .orElseThrow(() -> new NotFoundResponse("User not found"));
         var page = new UserPage(user);
         ctx.render("users/show.jte", model("page", page));
     }
 
     public static void build(Context ctx) {
         var page = new BuildUserPage();
+        page.setFlash(ctx.consumeSessionAttribute("flash"));
         ctx.render("users/build.jte", model("page", page));
     }
 
@@ -56,9 +58,11 @@ public class UsersController {
                     .get();
             var user = new User(name, email, password);
             UserRepository.save(user);
+            ctx.sessionAttribute("flash", "User has been created!");
             ctx.redirect(NamedRoutes.usersPath());
         } catch (ValidationException e) {
             var page = new BuildUserPage(name, email, e.getErrors());
+            page.setFlash("User was not created!");
             ctx.render("users/build.jte", model("page", page));
         }
     }
@@ -66,7 +70,7 @@ public class UsersController {
     public static void edit(Context ctx) {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var user = UserRepository.find(id)
-                .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
+                .orElseThrow(() -> new NotFoundResponse("User not found"));
         var page = new UserPage(user);
         ctx.render("user/edit.jte", model("page", page));
     }
@@ -79,7 +83,7 @@ public class UsersController {
         var password = ctx.formParam("password");
 
         var user = UserRepository.find(id)
-                .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
+                .orElseThrow(() -> new NotFoundResponse("User not found"));
         user.setName(name);
         user.setEmail(email);
         user.setPassword(password);

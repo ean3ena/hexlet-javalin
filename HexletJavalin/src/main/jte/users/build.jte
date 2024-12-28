@@ -3,6 +3,11 @@
 @param BuildUserPage page
 
 @template.layout.page(content = @`
+    @if(page.getFlash() != null)
+        <div class="alert alert-danger" role="alert">
+            <p>${page.getFlash()}</p>
+        </div>
+    @endif
     @if(page.getErrors() != null)
         <ul>
             @for(var validator : page.getErrors().values())

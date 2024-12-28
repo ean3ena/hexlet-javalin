@@ -43,11 +43,8 @@ public class App {
             //
         });
 
-        // Отображение формы логина
         app.get(NamedRoutes.buildSessionsPath(), SessionsController::build);
-        // Процесс логина
         app.post(NamedRoutes.sessionsPath(), SessionsController::create);
-        // Процесс выхода из аккаунта
         app.delete(NamedRoutes.sessionsPath(), SessionsController::destroy);
 
 
