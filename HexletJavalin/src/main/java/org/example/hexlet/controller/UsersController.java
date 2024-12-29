@@ -11,13 +11,14 @@ import org.example.hexlet.dto.users.UsersPage;
 import org.example.hexlet.model.User;
 import org.example.hexlet.repository.UserRepository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class UsersController {
 
-    public static void index(Context ctx) {
+    public static void index(Context ctx) throws SQLException {
         var term = ctx.queryParam("term");
         List<User> users;
         if (term != null) {
@@ -29,10 +30,11 @@ public class UsersController {
         }
         var page = new UsersPage(users, term);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flashType"));
         ctx.render("users/index.jte", model("page", page));
     }
 
-    public static void show(Context ctx) {
+    public static void show(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var user = UserRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("User not found"));
@@ -43,10 +45,11 @@ public class UsersController {
     public static void build(Context ctx) {
         var page = new BuildUserPage();
         page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flashType"));
         ctx.render("users/build.jte", model("page", page));
     }
 
-    public static void create(Context ctx) {
+    public static void create(Context ctx) throws SQLException {
         var name = ctx.formParam("name").trim();
         var email = ctx.formParam("email").trim().toLowerCase();
 
@@ -59,15 +62,17 @@ public class UsersController {
             var user = new User(name, email, password);
             UserRepository.save(user);
             ctx.sessionAttribute("flash", "User has been created!");
+            ctx.sessionAttribute("flashType", "success");
             ctx.redirect(NamedRoutes.usersPath());
         } catch (ValidationException e) {
             var page = new BuildUserPage(name, email, e.getErrors());
-            page.setFlash("User was not created!");
+            ctx.sessionAttribute("flash", "User was not created!");
+            ctx.sessionAttribute("flashType", "danger");
             ctx.render("users/build.jte", model("page", page));
         }
     }
 
-    public static void edit(Context ctx) {
+    public static void edit(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var user = UserRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("User not found"));
@@ -75,7 +80,7 @@ public class UsersController {
         ctx.render("user/edit.jte", model("page", page));
     }
 
-    public static void update(Context ctx) {
+    public static void update(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
 
         var name = ctx.formParam("name");
@@ -91,9 +96,9 @@ public class UsersController {
         ctx.redirect(NamedRoutes.usersPath());
     }
 
-    public static void destroy(Context ctx)  {
-        var id = ctx.pathParamAsClass("id", Long.class).get();
-        UserRepository.delete(id);
-        ctx.redirect(NamedRoutes.usersPath());
-    }
+//    public static void destroy(Context ctx)  {
+//        var id = ctx.pathParamAsClass("id", Long.class).get();
+//        UserRepository.delete(id);
+//        ctx.redirect(NamedRoutes.usersPath());
+//    }
 }

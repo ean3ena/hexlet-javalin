@@ -27,6 +27,8 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.36")
     implementation("org.apache.commons:commons-text:1.13.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
+    implementation("com.h2database:h2:2.2.220")
+    implementation("com.zaxxer:HikariCP:5.0.1")
     testImplementation(platform("org.junit:junit-bom:5.10.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testCompileOnly("org.projectlombok:lombok:1.18.36")

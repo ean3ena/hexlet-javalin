@@ -3,11 +3,6 @@
 @param BuildUserPage page
 
 @template.layout.page(content = @`
-    @if(page.getFlash() != null)
-        <div class="alert alert-danger" role="alert">
-            <p>${page.getFlash()}</p>
-        </div>
-    @endif
     @if(page.getErrors() != null)
         <ul>
             @for(var validator : page.getErrors().values())
@@ -19,30 +14,22 @@
     @endif
 
     <form action="${NamedRoutes.usersPath()}" method="post">
-        <div>
-            <label>
-                Имя
-                <input type="text" name="name" value="${page.getName()}" />
-            </label>
+        <div class="form-group">
+            <label for="inputName">Имя</label>
+            <input type="text" class="form-control" id="inputName" name="name" placeholder="Введите имя" value="${page.getName()}" />
         </div>
-        <div>
-            <label>
-                Email
-                <input type="email" required name="email" value="${page.getEmail()}" />
-            </label>
+        <div class="form-group">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" id="inputEmail" required name="email" placeholder="Введите Email" value="${page.getEmail()}" />
         </div>
-        <div>
-            <label>
-                Пароль
-                <input type="password" required name="password" />
-            </label>
+        <div class="form-group">
+            <label for="inputPassword">Пароль</label>
+            <input type="password" class="form-control" id="inputPassword" required name="password" placeholder="Введите пароль" />
         </div>
-        <div>
-            <label>
-                Подтверждение пароля
-                <input type="password" required name="passwordConfirmation" />
-            </label>
+        <div class="form-group">
+            <label for="inputPasswordConfirmation">Подтверждение пароля</label>
+            <input type="password" class="form-control" id="inputPasswordConfirmation" required name="passwordConfirmation" placeholder="Повторите пароль" />
         </div>
-        <input type="submit" value="Зарегистрировать" />
+        <button type="submit" class="btn btn-primary">Зарегистрировать</button>
     </form>
 `)

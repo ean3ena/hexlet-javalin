@@ -4,8 +4,8 @@
 
 @template.layout.page(content = @`
     @if(page.getFlash() != null)
-        <div class="alert alert-success" role="alert">
-            <p>${page.getFlash()}</p>
+        <div class="alert alert-${page.getFlashType()}" role="alert">
+            ${page.getFlash()}
         </div>
     @endif
     <form action="${NamedRoutes.usersPath()}" method="get">

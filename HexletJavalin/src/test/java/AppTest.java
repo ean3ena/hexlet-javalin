@@ -15,7 +15,7 @@ class AppTest {
     private static String baseUrl;
 
     @BeforeAll
-    public static void beforeAll() {
+    public static void beforeAll() throws Exception {
         app = App.getApp();
         app.start(0);
         int port = app.port();

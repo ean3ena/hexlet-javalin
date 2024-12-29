@@ -14,20 +14,35 @@
 </head>
 <body>
 <header>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="${NamedRoutes.usersPath()}">Users</a></li>
-            <li><a href="${NamedRoutes.coursesPath()}">Courses</a></li>
-            <li><a href="${NamedRoutes.buildSessionsPath()}">Login</a></li>
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="${NamedRoutes.rootPath()}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${NamedRoutes.usersPath()}">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${NamedRoutes.coursesPath()}">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${NamedRoutes.carsPath()}">Cars</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${NamedRoutes.buildSessionsPath()}">Login</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 </header>
 <main>
     @if(page != null && page.getFlash() != null)
-        <p>${page.getFlash()}</p>
+        <div class="alert alert-${page.getFlashType()}" role="alert">
+            ${page.getFlash()}
+        </div>
     @endif
-    <div class="content">
+    <div class="container">
         ${content}
     </div>
 </main>

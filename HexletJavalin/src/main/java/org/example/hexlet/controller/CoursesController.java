@@ -11,13 +11,14 @@ import org.example.hexlet.dto.courses.CoursesPage;
 import org.example.hexlet.model.Course;
 import org.example.hexlet.repository.CourseRepository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class CoursesController {
 
-    public static void index(Context ctx) {
+    public static void index(Context ctx) throws SQLException {
         var term = ctx.queryParam("term");
         List<Course> courses;
         if (term != null) {
@@ -29,10 +30,11 @@ public class CoursesController {
         }
         var page = new CoursesPage(courses, term);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flashType"));
         ctx.render("courses/index.jte", model("page", page));
     }
 
-    public static void show(Context ctx) {
+    public static void show(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var course = CourseRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
@@ -45,7 +47,7 @@ public class CoursesController {
         ctx.render("courses/build.jte", model("page", page));
     }
 
-    public static void create(Context ctx) {
+    public static void create(Context ctx) throws SQLException {
         try {
             var name = ctx.formParamAsClass("name", String.class)
                     .check(value -> value.length() > 2, "Наименование должно быть более 2 символов")
@@ -56,16 +58,18 @@ public class CoursesController {
             var course = new Course(name, description);
             CourseRepository.save(course);
             ctx.sessionAttribute("flash", "Course has been created!");
+            ctx.sessionAttribute("flashType", "success");
             ctx.redirect(NamedRoutes.coursesPath());
         } catch (ValidationException e) {
             var page = new BuildCoursePage(ctx.formParam("name"), ctx.formParam("description"),
                     e.getErrors());
-            page.setFlash("Course was not created!");
+            ctx.sessionAttribute("flash", "Course was not created!");
+            ctx.sessionAttribute("flashType", "danger");
             ctx.render("courses/build.jte", model("page", page));
         }
     }
 
-    public static void edit(Context ctx) {
+    public static void edit(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var course = CourseRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
@@ -73,7 +77,7 @@ public class CoursesController {
         ctx.render("course/edit.jte", model("page", page));
     }
 
-    public static void update(Context ctx) {
+    public static void update(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
 
         var name = ctx.formParam("name");
@@ -87,9 +91,9 @@ public class CoursesController {
         ctx.redirect(NamedRoutes.coursesPath());
     }
 
-    public static void destroy(Context ctx)  {
-        var id = ctx.pathParamAsClass("id", Long.class).get();
-        CourseRepository.delete(id);
-        ctx.redirect(NamedRoutes.coursesPath());
-    }
+//    public static void destroy(Context ctx)  {
+//        var id = ctx.pathParamAsClass("id", Long.class).get();
+//        CourseRepository.delete(id);
+//        ctx.redirect(NamedRoutes.coursesPath());
+//    }
 }
